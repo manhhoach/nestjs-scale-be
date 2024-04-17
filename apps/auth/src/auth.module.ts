@@ -5,13 +5,14 @@ import { UsersModule } from './users/users.module';
 import { LoggerModule } from '@app/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import * as Joi from 'Joi';
+import * as Joi from 'joi';
 @Module({
   imports: [
     UsersModule,
     LoggerModule,
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: 'apps/auth/.env',
       validationSchema: Joi.object({
         MONGO_URI: Joi.string().required(),
         JWT_EXPIRATION_IN_SECONDS: Joi.string().required(),
@@ -27,7 +28,7 @@ import * as Joi from 'Joi';
           )}s`,
         },
       }),
-      inject: [ConfigService]
+      inject: [ConfigService],
     }),
   ],
   controllers: [AuthController],
