@@ -3,6 +3,7 @@ import { UserDocument } from './users/models/user.schema';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { ITokenPayload } from './interfaces/token-payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,7 @@ export class AuthService {
   }
 
   async login(user: UserDocument, res: Response) {
-    const payload = {
+    const payload: ITokenPayload = {
       userId: user._id.toHexString(),
     };
     let expiresTime = this.configService.get('JWT_EXPIRATION_IN_SECONDS');
